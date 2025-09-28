@@ -10,13 +10,13 @@ int precedence(char op){
 }
 
 //Function to solve the expression.
-double solve(double a,double b,char op){
+int solve(int a,int b,char op){
     switch(op){
         case '+':return a+b;
         case '-':return a-b;
         case '*':return a*b;
         case '/':if(b==0){
-            printf("\nError: Division by 0!\n");
+            printf("\nError: Division by Zero!\n");
             exit(0);
         }
         return a/b;
@@ -26,7 +26,7 @@ double solve(double a,double b,char op){
 
 int main(){
     char expression[100];
-    double numbers[100];
+    int numbers[100];
     int ntop=-1, otop=-1;
     char operators[100];
 
@@ -36,7 +36,7 @@ int main(){
     for(int i=0;expression[i];i++){
         if(expression[i]==' ')continue;   //Ignoring all the whitespaces.
         if(isdigit(expression[i])){       //Taking the number and adding it to the stack.
-            double val=0;
+            int val=0;
             while(isdigit(expression[i])){    
                 val=val*10+(expression[i] - '0');
                 i++;
@@ -46,26 +46,26 @@ int main(){
         }
         else if(expression[i]=='+' || expression[i]=='-' || expression[i]=='*' || expression[i]=='/'){
             while(otop>=0 && precedence(operators[otop])>=precedence(expression[i])){    //Higher precedence operation will take place. 
-                double b=numbers[ntop--];
-                double a=numbers[ntop--];
+                int b=numbers[ntop--];
+                int a=numbers[ntop--];
                 char op=operators[otop--];
                 numbers[++ntop]=solve(a,b,op);
             }
             operators[++otop]=expression[i];
         }
         else if(expression[i]!='\n'){
-            printf("Invalid Input!");
+            printf("Error: Invalid Expression!");
             return 0;
         }
     }
 
     while(otop>=0){       //For the remaining operations.
-        double b=numbers[ntop--];
-        double a=numbers[ntop--];
+        int b=numbers[ntop--];
+        int a=numbers[ntop--];
         char op=operators[otop--];
         numbers[++ntop]=solve(a,b,op);
     }
-    printf("%.2lf\n",numbers[ntop]); //Returning the top value of numbers which contains the answer.
+    printf("%d\n",numbers[ntop]); //Returning the top value of numbers which contains the answer.
     return 0;
 
 }
