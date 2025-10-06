@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<ctype.h>
 #include<stdlib.h>
+#define MAX_SIZE 100
 
 //Function to check the precendence of the operators.
 int precedence(char op){
@@ -15,23 +16,24 @@ int solve(int a,int b,char op){
         case '+':return a+b;
         case '-':return a-b;
         case '*':return a*b;
-        case '/':if(b==0){
-            printf("\nError: Division by Zero!\n");
-            exit(0);
-        }
-        return a/b;
+        case '/':return a/b;
         default:return 0;
     }
 }
 
+//Checks if it is an operator
+int isOperator(char op){
+    return op=='+' || op=='-' || op=='*' || op=='/';
+}
+
 int main(){
-    char expression[100];
-    int numbers[100];
+    char expression[MAX_SIZE];
+    int numbers[MAX_SIZE];
     int ntop=-1, otop=-1;
-    char operators[100];
+    char operators[MAX_SIZE];
 
     printf("Enter the expression: ");
-    fgets(expression,100,stdin);
+    fgets(expression,sizeof(expression),stdin);
 
     for(int i=0;expression[i];i++){
         if(expression[i]==' ')continue;   //Ignoring all the whitespaces.
@@ -44,17 +46,23 @@ int main(){
             i--;
             numbers[++ntop]=val;
         }
-        else if(expression[i]=='+' || expression[i]=='-' || expression[i]=='*' || expression[i]=='/'){
+        else if(isOperator(expression[i])){
             while(otop>=0 && precedence(operators[otop])>=precedence(expression[i])){    //Higher precedence operation will take place. 
                 int b=numbers[ntop--];
                 int a=numbers[ntop--];
                 char op=operators[otop--];
-                numbers[++ntop]=solve(a,b,op);
+                if(b==0 && op=='/'){
+                    printf("Error: Division by zero!\n");
+                    return 1;
+                }
+                else{
+                    numbers[++ntop]=solve(a,b,op);
+                }
             }
             operators[++otop]=expression[i];
         }
         else if(expression[i]!='\n'){
-            printf("Error: Invalid Expression!");
+            printf("Error: Invalid Expression!\n");
             return 0;
         }
     }
@@ -63,9 +71,13 @@ int main(){
         int b=numbers[ntop--];
         int a=numbers[ntop--];
         char op=operators[otop--];
+        if(b==0 && op=='/'){
+            printf("Error: Division by zero!\n");
+            return 1;
+        }
         numbers[++ntop]=solve(a,b,op);
     }
-    printf("%d\n",numbers[ntop]); //Returning the top value of numbers which contains the answer.
+    printf("Result: %d\n",numbers[ntop]); //Returning the top value of numbers which contains the answer.
     return 0;
 
 }
