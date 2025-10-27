@@ -4,8 +4,8 @@
 #define MIN_SIZE 2
 #define MAX_SIZE 10
 
-void inputValues(int size, int matrix[]);
-void rotateMatrix(int size, int matrix[]);
+void generateRandomMatrix(int size, int matrix[]);
+void rotateMatrixBy90Deg(int size, int matrix[]);
 void smoothenMatrix(int size, int matrix[]);
 void swapValues(int *top,int *right,int *bottom,int* left);
 void printMatrix(int size, int matrix[]);
@@ -24,11 +24,11 @@ int main()
     }
     int matrix[size*size];
 
-    inputValues(size,matrix);
+    generateRandomMatrix(size,matrix);
     printf("The Original matrix is: \n");
     printMatrix(size,matrix);
 
-    rotateMatrix(size,matrix);
+    rotateMatrixBy90Deg(size,matrix);
     printf("The Rotated matrix is: \n");
     printMatrix(size,matrix);
 
@@ -38,8 +38,8 @@ int main()
 }
 
 
-//Function to input random values into matrix.
-void inputValues(int size, int matrix[])
+
+void generateRandomMatrix(int size, int matrix[])
 {
     srand(time(0));
 
@@ -52,8 +52,8 @@ void inputValues(int size, int matrix[])
     }
 }
 
-//Function to rotate the matrix by 90deg.
-void rotateMatrix(int size, int matrix[])
+
+void rotateMatrixBy90Deg(int size, int matrix[])
 {
     for(int layer=0; layer<size/2; layer++)
     {
@@ -72,7 +72,7 @@ void rotateMatrix(int size, int matrix[])
     }
 }
 
-//Function to smoothen the matrix.
+
 void smoothenMatrix(int size, int matrix[])
 {
     int prevRow[size];
@@ -111,7 +111,7 @@ void smoothenMatrix(int size, int matrix[])
     addValues(size,matrix,prevRow,size);
 }
 
-//Function to dispay the matrix on the console.
+
 void printMatrix(int size, int matrix[])
 {
     for(int i=0;i<size;i++)
@@ -126,9 +126,9 @@ void printMatrix(int size, int matrix[])
 
 }
 
-//HELPER FUNCTIONS
 
-//Function to swap values.
+
+
 void swapValues(int *top,int *right,int *bottom,int* left)
 {
     int temp=*top;
@@ -138,7 +138,7 @@ void swapValues(int *top,int *right,int *bottom,int* left)
     *right=temp;
 }
 
-//Function to assign values to each pointer.
+
 void assignValues(int **top,int **right,int **bottom,int **left,int matrix[],int offset, int first, int last, int size)
 {
     *top = matrix + first*size + (first+offset);
@@ -147,7 +147,7 @@ void assignValues(int **top,int **right,int **bottom,int **left,int matrix[],int
     *left= matrix + (last-offset)*size + first;
 }
 
-//Function to append new values into the matrix.
+
 void addValues(int size, int *matrix, int prevRow[],int i)
 {
     for(int j=0;j<size;j++)
