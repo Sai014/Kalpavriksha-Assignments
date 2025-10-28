@@ -68,7 +68,7 @@ int main()
 
             case 7: deleteProduct(&products,&size); break;
 
-            case 8: exit(0);
+            case 8: free(products);products=NULL;exit(0);
 
             default: printf("Enter a valid choice!"); break;
         }
