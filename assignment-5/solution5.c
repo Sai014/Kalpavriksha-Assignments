@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #define MAX_SIZE 20
 
-//Structure of Product
+
 typedef struct 
 {
     int productID;
@@ -12,14 +12,14 @@ typedef struct
 }Product;
 
 
-//List of all functions used.
-void inputValues(Product *products, int size);
+
+void addInitialProducts(Product *products, int size);
 void addProduct(Product **products, int *size);
 void displayProducts(Product *products, int size);
 void updateQuantity(Product *products, int size);
-void searchProductID(Product *products, int size);
-void searchProductName(Product *products,int size);
-void searchProductPrice(Product *products, int size);
+void searchProductByID(Product *products, int size);
+void searchProductByName(Product *products,int size);
+void searchProductByPrice(Product *products, int size);
 void deleteProduct(Product **products, int *size);
 
 
@@ -35,12 +35,12 @@ int main()
         printf("Memory not allocated!\n");
         return 1;
     }
-    inputValues(products,size);
+    addInitialProducts(products,size);
 
-    //MENU
+    
     while(1)
     {
-        int ch;
+        int choice;
         printf("\n========= INVENTORY MENU =========\n");
         printf("1. Add New Product\n");
         printf("2. View All Products\n");
@@ -51,8 +51,8 @@ int main()
         printf("7. Delete Product\n");
         printf("8. Exit\n");
         printf("\nEnter your choice: ");
-        scanf("%d",&ch);
-        switch(ch)
+        scanf("%d",&choice);
+        switch(choice)
         {
             case 1: addProduct(&products,&size);break;
             
@@ -60,11 +60,11 @@ int main()
 
             case 3: updateQuantity(products,size); break;
 
-            case 4: searchProductID(products,size); break;
+            case 4: searchProductByID(products,size); break;
 
-            case 5: searchProductName(products,size); break;
+            case 5: searchProductByName(products,size); break;
 
-            case 6: searchProductPrice(products,size); break;
+            case 6: searchProductByPrice(products,size); break;
 
             case 7: deleteProduct(&products,&size); break;
 
@@ -76,8 +76,8 @@ int main()
     }
 }
 
-//Inputs the inital Products from the user.
-void inputValues(Product *products, int size)
+
+void addInitialProducts(Product *products, int size)
 {
     for(int i=0;i<size;i++)
     {
@@ -94,7 +94,7 @@ void inputValues(Product *products, int size)
 }
 
 
-//Displays the products on console.
+
 void displayProducts(Product *products, int size)
 {
     printf("========= PRODUCT LIST =========\n");
@@ -105,7 +105,7 @@ void displayProducts(Product *products, int size)
 }
 
 
-//Adds product by reallocating memory.
+
 void addProduct(Product **products, int *size)
 {
     *products=realloc(*products,(*size+1)*sizeof(Product));
@@ -128,7 +128,7 @@ void addProduct(Product **products, int *size)
     printf("Product successfully added!\n");
 }
 
-//Updates quantity of a product
+
 void updateQuantity(Product *products, int size)
 {
     int productID;
@@ -149,8 +149,8 @@ void updateQuantity(Product *products, int size)
 }
 
 
-//Searches the product by taking ID as an input.
-void searchProductID(Product *products,int size)
+
+void searchProductByID(Product *products,int size)
 {
      int productID;
     printf("Enter Product ID to search: ");
@@ -170,8 +170,8 @@ void searchProductID(Product *products,int size)
 }
 
 
-//Searches the product by taking name as an input.
-void searchProductName(Product *products,int size)
+
+void searchProductByName(Product *products,int size)
 {
     char *name=malloc(MAX_SIZE*sizeof(char));
     printf("Enter name to search (partial allowed): ");
@@ -194,8 +194,8 @@ void searchProductName(Product *products,int size)
     }
 }
 
-//Searches the product by taking price range as an input.
-void searchProductPrice(Product *products, int size)
+
+void searchProductByPrice(Product *products, int size)
 {
     int minPrice;
     int maxPrice;
@@ -219,7 +219,7 @@ void searchProductPrice(Product *products, int size)
     return;
 }
 
-//Function to delete the product based on product ID. 
+
 void deleteProduct(Product **products, int *size)
 {
     int ID;
